@@ -25,6 +25,11 @@ public class ProductRepository {
         return editedProduct;
     }
 
+    public void delete(String id) {
+        int productIndex = findIndexById(id);
+        productData.remove(productIndex);
+    }
+
     public Product findById(String id) {
         return productData.get(findIndexById(id));
     }
