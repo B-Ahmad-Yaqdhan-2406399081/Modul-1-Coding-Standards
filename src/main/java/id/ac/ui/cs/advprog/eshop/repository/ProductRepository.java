@@ -17,14 +17,23 @@ public class ProductRepository {
         return product;
     }
 
-    public Product edit(Product editedProduct) {
-        int oldProductIndex = IntStream.range(0, productData.size())
-                .filter(index -> productData.get(index).getProductId() == editedProduct.getProductId())
-                .findFirst()
-                .getAsInt();
+    public Product edit(String id, Product editedProduct) {
+        int oldProductIndex = findIndexById(id);
 
+        editedProduct.setProductId(id);
         productData.set(oldProductIndex, editedProduct);
         return editedProduct;
+    }
+
+    public Product findById(String id) {
+        return productData.get(findIndexById(id));
+    }
+
+    public int findIndexById(String id) {
+        return IntStream.range(0, productData.size())
+                .filter(index -> productData.get(index).getProductId().equals(id))
+                .findFirst()
+                .getAsInt();
     }
 
     public Iterator<Product> findAll() {
