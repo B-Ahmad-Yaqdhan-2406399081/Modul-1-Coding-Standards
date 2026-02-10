@@ -68,4 +68,38 @@ public class ProductRepositoryTest {
 
         assertFalse(productIterator.hasNext());
     }
+
+    void testEditProduct() {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        Product editedProduct = new Product();
+        editedProduct.setProductId(product.getProductId());
+        editedProduct.setProductName("Sampo Cap Badak");
+        product.setProductQuantity(25);
+        productRepository.edit(editedProduct.getProductId(), editedProduct);
+
+        Iterator<Product> productIterator = productRepository.findAll();
+        assertTrue(productIterator.hasNext());
+
+        Product repoProduct = productIterator.next();
+        assertEquals("Sampo Cap Badak", repoProduct.getProductName());
+        assertEquals(25, repoProduct.getProductQuantity());
+
+        // Negative scenarios
+        Product editedProduct2 = new Product();
+        editedProduct2.setProductId("35b9427c-8d14-4864-8a0f-0286baa6a7b9");
+        editedProduct2.setProductName("Sampo Cap Kaki Tiga");
+        editedProduct2.setProductQuantity(70);
+        assertThrows(Exception.class, () -> productRepository.edit(editedProduct2.getProductId(), editedProduct2));
+
+        Product editedProduct3 = new Product();
+        editedProduct3.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        editedProduct3.setProductName("Sampo Cap Kaki Sepuluh");
+        editedProduct3.setProductQuantity(-100);
+        assertThrows(Exception.class, () -> productRepository.edit(editedProduct3.getProductId(), editedProduct3));
+    }
 }
