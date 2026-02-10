@@ -25,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product edit(String id, Product editedProduct) {
+    public Product edit(String id, Product editedProduct) throws Exception {
         productRepository.edit(id, editedProduct);
         return editedProduct;
     }
