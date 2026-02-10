@@ -17,7 +17,8 @@ public class ProductRepository {
         return product;
     }
 
-    public Product edit(String id, Product editedProduct) {
+    public Product edit(String id, Product editedProduct) throws Exception {
+        if (editedProduct.getProductQuantity() < 0) throw new Exception("Invalid product quantity");
         int oldProductIndex = findIndexById(id);
 
         editedProduct.setProductId(id);

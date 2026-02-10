@@ -70,7 +70,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    void testEditProduct() {
+    void testEditProduct() throws Exception {
         Product product = new Product();
         product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
         product.setProductName("Sampo Cap Bambang");
@@ -80,7 +80,7 @@ public class ProductRepositoryTest {
         Product editedProduct = new Product();
         editedProduct.setProductId(product.getProductId());
         editedProduct.setProductName("Sampo Cap Badak");
-        product.setProductQuantity(25);
+        editedProduct.setProductQuantity(25);
         productRepository.edit(editedProduct.getProductId(), editedProduct);
 
         Iterator<Product> productIterator = productRepository.findAll();
