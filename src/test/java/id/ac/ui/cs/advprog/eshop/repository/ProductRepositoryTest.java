@@ -127,4 +127,16 @@ public class ProductRepositoryTest {
         productIterator = productRepository.findAll();
         assertTrue(productIterator.hasNext());
     }
+
+    @Test
+    void testFindProductById() {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        Product findProduct = productRepository.findById("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        assertEquals("Sampo Cap Bambang", findProduct.getProductName());
+    }
 }
