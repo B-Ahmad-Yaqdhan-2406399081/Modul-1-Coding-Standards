@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
 import id.ac.ui.cs.advprog.eshop.repository.PaymentRepository;
@@ -41,27 +42,27 @@ public class PaymentServiceImplTest {
         paymentData.put("voucherCode", "ESHOP1234ABC5678");
 
         doReturn(null).when(paymentRepository).save(any(Payment.class));
-        doReturn(order).when(orderService).updateStatus(order.getId(), "SUCCESS");
+        doReturn(order).when(orderService).updateStatus(order.getId(), PaymentStatus.SUCCESS.getValue());
 
         Payment result = paymentService.addPayment(order, "VOUCHER_CODE", paymentData);
 
-        assertEquals("SUCCESS", result.getStatus());
-        verify(paymentRepository, times(2)).save(any(Payment.class)); // 1 for add, 1 for setStatus update
-        verify(orderService, times(1)).updateStatus(order.getId(), "SUCCESS");
+        assertEquals(PaymentStatus.SUCCESS.getValue(), result.getStatus());
+        verify(paymentRepository, times(2)).save(any(Payment.class));
+        verify(orderService, times(1)).updateStatus(order.getId(), PaymentStatus.SUCCESS.getValue());
     }
 
     @Test
     void testAddPaymentVoucherInvalidNumberCount() {
         Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("voucherCode", "ESHOPABCDEFGHJKL"); // Tidak ada angka sama sekali
+        paymentData.put("voucherCode", "ESHOPABCDEFGHJKL");
 
         doReturn(null).when(paymentRepository).save(any(Payment.class));
-        doReturn(order).when(orderService).updateStatus(order.getId(), "FAILED");
+        doReturn(order).when(orderService).updateStatus(order.getId(), PaymentStatus.FAILED.getValue());
 
         Payment result = paymentService.addPayment(order, "VOUCHER_CODE", paymentData);
 
-        assertEquals("REJECTED", result.getStatus());
-        verify(orderService, times(1)).updateStatus(order.getId(), "FAILED");
+        assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
+        verify(orderService, times(1)).updateStatus(order.getId(), PaymentStatus.FAILED.getValue());
     }
 
     @Test
@@ -70,11 +71,11 @@ public class PaymentServiceImplTest {
         paymentData.put("voucherCode", "PROMO1234ABC5678"); // Prefix salah
 
         doReturn(null).when(paymentRepository).save(any(Payment.class));
-        doReturn(order).when(orderService).updateStatus(order.getId(), "FAILED");
+        doReturn(order).when(orderService).updateStatus(order.getId(), PaymentStatus.FAILED.getValue());
 
         Payment result = paymentService.addPayment(order, "VOUCHER_CODE", paymentData);
 
-        assertEquals("REJECTED", result.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
     }
 
     @Test
@@ -83,11 +84,11 @@ public class PaymentServiceImplTest {
         paymentData.put("voucherCode", "ESHOP123");
 
         doReturn(null).when(paymentRepository).save(any(Payment.class));
-        doReturn(order).when(orderService).updateStatus(order.getId(), "FAILED");
+        doReturn(order).when(orderService).updateStatus(order.getId(), PaymentStatus.FAILED.getValue());
 
         Payment result = paymentService.addPayment(order, "VOUCHER_CODE", paymentData);
 
-        assertEquals("REJECTED", result.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
     }
 
     @Test
@@ -96,12 +97,12 @@ public class PaymentServiceImplTest {
         Payment payment = new Payment("pay-1", "VOUCHER_CODE", paymentData, order);
 
         doReturn(payment).when(paymentRepository).save(payment);
-        doReturn(order).when(orderService).updateStatus(order.getId(), "SUCCESS");
+        doReturn(order).when(orderService).updateStatus(order.getId(), PaymentStatus.SUCCESS.getValue());
 
-        Payment result = paymentService.setStatus(payment, "SUCCESS");
+        Payment result = paymentService.setStatus(payment, PaymentStatus.SUCCESS.getValue());
 
-        assertEquals("SUCCESS", result.getStatus());
-        verify(orderService, times(1)).updateStatus(order.getId(), "SUCCESS");
+        assertEquals(PaymentStatus.SUCCESS.getValue(), result.getStatus());
+        verify(orderService, times(1)).updateStatus(order.getId(), PaymentStatus.SUCCESS.getValue());
     }
 
     @Test
@@ -110,11 +111,11 @@ public class PaymentServiceImplTest {
         Payment payment = new Payment("pay-1", "VOUCHER_CODE", paymentData, order);
 
         doReturn(payment).when(paymentRepository).save(payment);
-        doReturn(order).when(orderService).updateStatus(order.getId(), "FAILED");
+        doReturn(order).when(orderService).updateStatus(order.getId(), PaymentStatus.FAILED.getValue());
 
-        Payment result = paymentService.setStatus(payment, "REJECTED");
+        Payment result = paymentService.setStatus(payment, PaymentStatus.REJECTED.getValue());
 
-        assertEquals("REJECTED", result.getStatus());
-        verify(orderService, times(1)).updateStatus(order.getId(), "FAILED");
+        assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
+        verify(orderService, times(1)).updateStatus(order.getId(), PaymentStatus.FAILED.getValue());
     }
 }
