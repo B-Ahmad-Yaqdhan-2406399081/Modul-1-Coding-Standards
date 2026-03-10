@@ -21,3 +21,14 @@ I fixed the tests not having 100% coverage by adding more test cases. The method
 
 ## Reflection 2
 With the fact that the workflow runs build and automate tests on push and pull request, it should follow the definition of Continuous Integration (CI). For Continuous Deployment (CD), it states that it is one step further from CI by automating the deployment process to an environment. Using the Koyeb auto deployment that I have set up, it should follow the definition of CD as well. Therefore, it is concluded that the current implementation of workflow follows the definition of CI/CD.
+
+# Module 3: Maintainability & OO Principles
+I didn't work on this module
+
+# Module 4: TDD & Refactoring
+
+## Reflection 1
+The TDD flow we used here, for me, is pretty useful. It sets a clear todo-like steps that we can follow to implement a feature. It also forces us to think about the test cases before implementing the feature which is pretty helpful to make sure that we have covered all the cases. However, it can be pretty time-consuming if we have to write a lot of test cases for a simple feature. Therefore, I think it's important to find a balance between writing enough test cases and not overdoing it.
+
+## Reflection 2
+I think the tests that we wrote in this module followed the FIRST principles. The tests are fast, independent, repeatable, self-validating, and timely. The tests are also pretty simple and easy to understand which is pretty good for maintainability. The naming of the test methods also follows the convention which makes it easier to understand what the test is doing.
