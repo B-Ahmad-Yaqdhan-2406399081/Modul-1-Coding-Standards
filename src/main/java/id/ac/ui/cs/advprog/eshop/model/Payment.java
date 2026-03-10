@@ -20,7 +20,7 @@ public class Payment {
         this.method = method;
         this.paymentData = paymentData;
         this.order = order;
-        this.status = "REJECTED";
+        this.status = PaymentStatus.REJECTED.getValue();
     }
 
     public void setStatus(String status) {
