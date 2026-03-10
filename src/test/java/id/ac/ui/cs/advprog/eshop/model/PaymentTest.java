@@ -30,14 +30,14 @@ class PaymentTest {
         assertEquals("VOUCHER_CODE", payment.getMethod());
         assertEquals(paymentData, payment.getPaymentData());
         assertEquals(order, payment.getOrder());
-        assertNull(payment.getStatus()); // Karena default belum di-set di konstruktor ini
+        assertNull(payment.getStatus());
     }
 
     @Test
     void testSetStatus() {
         Payment payment = new Payment("payment-123", "VOUCHER_CODE", paymentData, order);
-        payment.setStatus("SUCCESS");
+        payment.setStatus(PaymentStatus.SUCCESS.getValue());
 
-        assertEquals("SUCCESS", payment.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
     }
 }
