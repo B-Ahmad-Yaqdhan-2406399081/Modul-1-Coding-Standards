@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
 import id.ac.ui.cs.advprog.eshop.repository.PaymentRepository;
@@ -23,7 +24,7 @@ public class PaymentServiceImpl implements PaymentService {
         String paymentId = UUID.randomUUID().toString();
         Payment payment = new Payment(paymentId, method, paymentData, order);
 
-        String status = "REJECTED";
+        String status = PaymentStatus.REJECTED.getValue();
 
         if ("VOUCHER_CODE".equals(method)) {
             String voucherCode = paymentData.get("voucherCode");
@@ -33,7 +34,7 @@ public class PaymentServiceImpl implements PaymentService {
 
                 long numericCount = voucherCode.chars().filter(Character::isDigit).count();
                 if (numericCount == 8) {
-                    status = "SUCCESS";
+                    status = PaymentStatus.SUCCESS.getValue();
                 }
             }
         }
@@ -51,10 +52,10 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setStatus(status);
         paymentRepository.save(payment);
 
-        if ("SUCCESS".equals(status)) {
-            orderService.updateStatus(payment.getOrder().getId(), "SUCCESS");
-        } else if ("REJECTED".equals(status)) {
-            orderService.updateStatus(payment.getOrder().getId(), "FAILED");
+        if (PaymentStatus.SUCCESS.getValue().equals(status)) {
+            orderService.updateStatus(payment.getOrder().getId(), PaymentStatus.SUCCESS.getValue());
+        } else if (PaymentStatus.REJECTED.getValue().equals(status)) {
+            orderService.updateStatus(payment.getOrder().getId(), PaymentStatus.FAILED.getValue());
         }
 
         return payment;
